@@ -1,0 +1,45 @@
+.gradle
+gradle/
+gradlew
+gradlew.bat
+/build/
+*/build/
+*/logs/
+*/out/
+/ssl_file
+/ssl_zip_file
+!gradle/wrapper/gradle-wrapper.jar
+docker/mysql
+bin/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.ipr
+/out/
+/logs/
+/local/
+/local/redis-local
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+gradlew
+gradlew.bat
+
+### Other ###
+/http/
+
+### JOOQ ###
+*/src/generated/jooq

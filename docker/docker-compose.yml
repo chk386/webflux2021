@@ -1,0 +1,133 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=reactive
+      - MYSQL_USER=reactive
+      - MYSQL_PASSWORD=reactive
+      - MYSQL_DATABASE=reactive
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+networks:
+  default:
+    name: reactive
+#  adminer:
+#    container_name: adminer # mysql web client
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8081:8080
+#    environment:
+#      - ADMINER_DESIGN=mvt
+#  redis:
+#    container_name: redis
+#    hostname: redis
+#    image: redis:5.0-alpine
+#    restart: always
+#    #    command: redis-server --requirepass webflux
+#    ports:
+#      - 6379:6379
+
+#  redis-commander:
+#    container_name: redis-commander # redis web client
+#    hostname: redis-commander
+#    image: rediscommander/redis-commander:latest
+#    restart: always
+#    environment:
+#      - REDIS_HOSTS=local:redis:6379
+#    #      - REDIS_PASSWORD=webflux
+#    ports:
+#      - 8082:8081
+
+  # 최초 한번 계정생성 (dockerfile를 수정해서 하는건 너무 귀찮...)
+  # docker exec -it mongo /bin/sh
+  # mongo -u webflux -p webflux
+  # use webflux
+  # db.createUser({user: "webflux", pwd: "webflux", roles: ["dbAdmin", "readWrite"]})
+#  mongo:
+#    container_name: mongo
+#    hostname: mongo
+#    image: mongo:3.6.15-xenial
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - ./mongodb:/data/db
+#    command: --smallfiles
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=webflux
+#      - MONGO_INITDB_ROOT_PASSWORD=webflux
+#      - MONGO_INITDB_DATABASE=webflux
+#  mongo-express:
+#    depends_on:
+#      - mongo
+#    container_name: mongo-express
+#    hostname: mongo-express
+#    image: mongo-express
+#    environment:
+#      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+#      - ME_CONFIG_MONGODB_ADMINUSERNAME=webflux
+#      - ME_CONFIG_MONGODB_ADMINPASSWORD=webflux
+#      - ME_CONFIG_MONGODB_PORT=27017
+#      - ME_CONFIG_MONGODB_SERVER=mongo
+#      - ME_CONFIG_MONGODB_AUTH_DATABASE=webflux
+#    ports:
+#      - 8083:8081
+#  zookeeper:
+#    container_name: zookeeper
+#    hostname: zookeeper
+#    image: wurstmeister/zookeeper
+#    ports:
+#      - "2181:2181"
+
+  # -----------------------------------------------------------------------------
+  # For connections _internal_ to the docker network, such as from other services
+  # and components, use kafka:29092.
+  #
+  # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
+  # -----------------------------------------------------------------------------
+
+  # create topic
+  # docker run --net=host --rm confluentinc/cp-kafka:5.0.1 kafka-topics --create --topic webflux --partitions 1 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
+
+  # producer
+  # docker exec -it kafka /bin/sh
+  # kafka-console-producer --broker-list localhost:9092 --topic webflux --property parse.key=true --property key.seperator=,
+
+  # consumer
+  # kafka-console-consumer --bootstrap-server localhost:9092 --topic webflux
+#  kafka:
+#    container_name: kafka
+#    hostname: kafka
+#    ports:
+#      - 9092:9092
+#    image: wurstmeister/kafka
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: localhost
+#      KAFKA_CREATE_TOPICS: "webflux:1:1"
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#  zoonavigator:
+#    container_name: zoonavigator
+#    hostname: zoonavigator
+#    image: elkozmon/zoonavigator:latest
+#    depends_on:
+#      - zookeeper
+#    ports:
+#      - 8084:9000
+#  kafka-manager:
+#    container_name: kafka-manager
+#    hostname: kafka-manager
+#    image: kafkamanager/kafka-manager:latest
+#    depends_on:
+#      - kafka
+#    environment:
+#      - ZK_HOSTS=zookeeper:2181
+#    ports:
+#      - 8085:9000
