@@ -1,9 +1,32 @@
-#spring:
+spring:
 #  datasource:
 #    url: jdbc:mysql://localhost:3306/reactive
 #    username: reactive
 #    password: reactive
 #    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 2
+#      pool-name: reactive
+#  sql:
+#    init:
+#      schema-locations: classpath*:aa.sql
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/reactive
+    username: reactive
+    password: reactive
+    name: reactive
+    pool:
+      validation-query: select 'r2dbc'
+      max-size: 3
+      initial-size: 3
+      max-idle-time: 5m
+
+
+
+logging:
+  level:
+    org.springframework.transaction: TRACE
+
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    show-sql: true

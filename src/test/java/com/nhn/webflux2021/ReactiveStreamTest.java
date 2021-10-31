@@ -54,6 +54,7 @@ class ReactiveStreamTest {
         assertThat("1,2,3,4,5가 출력되어야 한다.", captureOutput(output), everyItem(is(in(integers))));
     }
 
+    @SuppressWarnings( "deprecation" )
     static class ExamObservable extends Observable {
         void push(List<Integer> integers) {
             integers.forEach(i -> {
@@ -66,6 +67,7 @@ class ReactiveStreamTest {
     @Test
     @Order(3)
     @DisplayName("Reactive Streams 테스트")
+    @SuppressWarnings( "all" )
     void reactiveStreamsTest(CapturedOutput output) {
         Publisher<Integer> publisher = s -> integers.forEach(s::onNext);
         publisher.subscribe(new Subscriber<>() {
