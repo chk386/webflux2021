@@ -11,6 +11,8 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import reactor.core.publisher.Flux;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +56,7 @@ class ReactiveStreamTest {
         assertThat("1,2,3,4,5가 출력되어야 한다.", captureOutput(output), everyItem(is(in(integers))));
     }
 
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     static class ExamObservable extends Observable {
         void push(List<Integer> integers) {
             integers.forEach(i -> {
@@ -67,15 +69,18 @@ class ReactiveStreamTest {
     @Test
     @Order(3)
     @DisplayName("Reactive Streams 테스트")
-    @SuppressWarnings( "all" )
+    @SuppressWarnings("all")
     void reactiveStreamsTest(CapturedOutput output) {
         Publisher<Integer> publisher = s -> integers.forEach(s::onNext);
         publisher.subscribe(new Subscriber<>() {
             private final Logger logger = LoggerFactory.getLogger(this.getClass());
+            Subscription subscription;
+
 
             @Override
             public void onSubscribe(Subscription s) {
-                logger.debug("onSubscribe");
+                logger.info("onSubscribe");
+                this.subscription = s;
             }
 
             @Override
@@ -83,12 +88,13 @@ class ReactiveStreamTest {
                 // publisher가 데이터를 push할때 실행
                 logger.info("Reactive Streams : {}", integer);
 
-                // 시스템 로드 평균이 90을 넘을경우
-//            if(ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class).getSystemLoadAverage() > 90) {
-//                subscription.request(3);
-//            }else {
-//                subscription.request(1);
-//            }
+//                 시스템 로드 평균이 90을 넘을경우
+//                if (ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class)
+//                                     .getSystemLoadAverage() > 90) {
+//                    this.subscription.request(3);
+//                } else {
+//                    this.subscription.request(1);
+//                }
             }
 
             @Override
@@ -110,16 +116,16 @@ class ReactiveStreamTest {
     @DisplayName("Reactor 테스트")
     void reactorTest(CapturedOutput output) {
         Flux.fromIterable(integers)
-                .subscribe(v -> logger.info("Reactor : {}", v));
+            .subscribe(v -> logger.info("Reactor : {}", v));
 
         assertThat("1,2,3,4,5가 출력되어야 한다.", captureOutput(output), everyItem(is(in(integers))));
     }
 
     private List<Integer> captureOutput(CapturedOutput output) {
         return Arrays.stream(output.getOut()
-                        .split("\n"))
-                .filter(line -> line.contains("DualityTest"))
-                .map(line -> Integer.parseInt(line.substring(line.length() - 1)))
-                .collect(toList());
+                                   .split("\n"))
+                     .filter(line -> line.contains("DualityTest"))
+                     .map(line -> Integer.parseInt(line.substring(line.length() - 1)))
+                     .collect(toList());
     }
 }

@@ -13,7 +13,8 @@ public class Webflux2021Application {
         SpringApplication.run(Webflux2021Application.class, args);
     }
 
-    
+    // functional endpoint
+
 
     @Bean
     ApplicationRunner run(ApplicationContext context) {
@@ -21,4 +22,6 @@ public class Webflux2021Application {
 
         };
     }
+
+
 }
