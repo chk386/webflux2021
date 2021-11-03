@@ -26,7 +26,7 @@ spring:
 logging:
   level:
     org.springframework.transaction: TRACE
-
+    org.springframework.web.reactive.function.client: TRACE
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    show-sql: true

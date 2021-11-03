@@ -2,33 +2,27 @@ package com.nhn.webflux2021.member;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.BodyExtractor;
 import org.springframework.web.reactive.function.BodyExtractors;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.lang.String.join;
 
 @Component
 public class MemberHandler {
     final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    // localhost:8080/members/nhn?reactive=webflux
     public Mono<ServerResponse> getMember(ServerRequest request) {
         request.headers()
                .asHttpHeaders()
@@ -58,8 +52,10 @@ public class MemberHandler {
         Mono<MultiValueMap<String, Part>> body = request.body(BodyExtractors.toMultipartData());
 
         return body.flatMap(parts -> {
-            Part file = parts.getFirst("file");
-            log.info("업로드된 파일명 : {}", file.name());
+            Part file = parts.getFirst("upload.log");
+
+
+            log.info("파일명 : {}", file.name());
 
             var flux = file.content()
                            .flatMap(buf -> {
@@ -68,13 +64,44 @@ public class MemberHandler {
                            })
                            .buffer(100)
                            .delayElements(Duration.ofMillis(500))
-                           .log();
-
+                           .log()
+                           .flatMapSequential(lists -> Mono.just(lists.stream()
+                                                                      .map(Integer::parseInt)
+                                                                      .reduce(Integer::sum)
+                                                                      .orElse(0))
+                           );
 
             return ServerResponse.ok()
                                  .contentType(MediaType.TEXT_EVENT_STREAM)
-                                 .body(flux, String.class);
+                                 .body(flux, Integer.class);
         });
+    }
+
+    public Mono<ServerResponse> getAddresses(ServerRequest request) {
+        String keyword = request.queryParam("keyword")
+                                .orElseThrow();
+        String pageNumber = request.queryParam("pageNumber")
+                                   .orElseThrow();
+        String pageSize = request.queryParam("pageSize")
+                                 .orElseThrow();
+        String clientId = request.headers()
+                                 .firstHeader("clientId");
+        String platform = request.headers()
+                                 .firstHeader("platform");
+
+        return WebClient.create("https://alpha-shop-api.e-ncp.com/")
+                        .get()
+                        .uri("/addresses/search?pageNumber={pageNumber}&pageSize={pageSize}&keyword={keyword}", pageNumber, pageSize, keyword)
+                        .header("clientId", clientId)
+                        .header("platform", platform)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .retrieve() // vs exchange
+                        .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new ServerWebInputException("input error")))
+                        .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new ServerWebInputException("input error")))
+                        .bodyToMono(String.class)
+                        .flatMap(body -> ServerResponse.ok()
+                                                       .contentType(MediaType.APPLICATION_JSON)
+                                                       .bodyValue(body));
     }
 
     public static class Member {
