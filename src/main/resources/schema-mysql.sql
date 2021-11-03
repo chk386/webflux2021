@@ -1,0 +1,7 @@
+
+CREATE TABLE member
+(
+    id    BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name  VARCHAR(50) NOT NULL,
+    phone VARCHAR(50)
+)

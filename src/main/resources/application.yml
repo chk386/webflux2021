@@ -21,12 +21,12 @@ spring:
       initial-size: 3
       max-idle-time: 5m
 
-
-
 logging:
   level:
-    org.springframework.transaction: TRACE
+#    org.springframework.transaction: TRACE
     org.springframework.web.reactive.function.client: TRACE
+    org.springframework.r2dbc: TRACE
+#    org.springframework.web: TRACE
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    show-sql: true
