@@ -10,6 +10,7 @@ gradlew.bat
 /ssl_zip_file
 !gradle/wrapper/gradle-wrapper.jar
 docker/mysql
+docker/mongodb
 bin/
 
 ### STS ###

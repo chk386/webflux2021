@@ -20,12 +20,20 @@ spring:
       max-size: 3
       initial-size: 3
       max-idle-time: 5m
+  data:
+    mongodb:
+      database: webflux
+      username: webflux
+      password: webflux
+      host: localhost
+      port: 3307
 
 logging:
   level:
 #    org.springframework.transaction: TRACE
     org.springframework.web.reactive.function.client: TRACE
     org.springframework.r2dbc: TRACE
+    org.springframework.mongodb: TRACE
 #    org.springframework.web: TRACE
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect

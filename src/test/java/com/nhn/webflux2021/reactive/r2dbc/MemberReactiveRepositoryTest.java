@@ -4,14 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
-import org.springframework.transaction.ReactiveTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.reactive.TransactionalOperator;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.math.BigInteger;
-import java.util.function.Consumer;
 
 @DataR2dbcTest
 class MemberReactiveRepositoryTest {
@@ -70,7 +66,7 @@ class MemberReactiveRepositoryTest {
 
 
         final Member member2 = new Member();
-        member2.setName("nhn-programmaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaa");
+        member2.setName("nhn-programmaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaa");
 
         transaction.execute(callback -> memberRepository.save(member2)
                                                         .doOnError(throwable -> callback.setRollbackOnly()))

@@ -19,10 +19,10 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 //	implementation 'org.springframework:spring-jdbc:5.3.12'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 //	implementation 'com.github.jasync-sql:jasync-mysql:2.0.0'
 	implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
 
@@ -38,8 +38,6 @@ dependencies {
 //	implementation 'io.vertx:vertx-mysql-client:4.2.0'
 //	implementation 'org.hibernate.reactive:hibernate-reactive-core:1.0.0.Final'
 //	implementation 'org.hibernate:hibernate-jpamodelgen:6.0.0.Beta1'
-
-
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'

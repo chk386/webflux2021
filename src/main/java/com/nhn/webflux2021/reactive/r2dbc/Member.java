@@ -2,7 +2,9 @@ package com.nhn.webflux2021.reactive.r2dbc;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table
 public class Member {
     @Id
     Integer id;
