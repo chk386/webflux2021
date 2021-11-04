@@ -34,6 +34,8 @@ logging:
     org.springframework.web.reactive.function.client: TRACE
     org.springframework.r2dbc: TRACE
     org.springframework.mongodb: TRACE
+    com.mongodb: TRACE
+    org.mongodb: TRACE
 #    org.springframework.web: TRACE
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
