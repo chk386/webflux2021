@@ -1,6 +1,7 @@
 package com.nhn.webflux2021;
 
 import com.nhn.webflux2021.reactive.mongo.MemberHistoryReactiveRepository;
+import com.nhn.webflux2021.reactive.r2dbc.MemberReactiveRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @SpringBootApplication
-@EnableR2dbcRepositories
+@EnableR2dbcRepositories(basePackageClasses = MemberReactiveRepository.class)
 public class Webflux2021Application {
 
     public static void main(String[] args) {

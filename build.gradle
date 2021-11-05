@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.5'
+	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
@@ -16,33 +16,31 @@ repositories {
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
 }
-
 dependencies {
+	// spring webflux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// r2dbc
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-//	implementation 'org.springframework:spring-jdbc:5.3.12'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-//	implementation 'com.github.jasync-sql:jasync-mysql:2.0.0'
 	implementation 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
-
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-//	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
-	// mysql
 	implementation 'mysql:mysql-connector-java'
+//	implementation 'com.github.jasync-sql:jasync-mysql:2.0.0'
 
+	// reactive mongo
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 
-	// hibernate-reactive
-//	implementation 'io.vertx:vertx-mysql-client:4.2.0'
-//	implementation 'org.hibernate.reactive:hibernate-reactive-core:1.0.0.Final'
-//	implementation 'org.hibernate:hibernate-jpamodelgen:6.0.0.Beta1'
+	// reactive redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient'
 }
+
 
 test {
 	outputs.dir snippetsDir
