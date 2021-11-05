@@ -27,16 +27,29 @@ spring:
       password: webflux
       host: localhost
       port: 3307
+  redis:
+    url: redis://localhost:3308
 
 logging:
   level:
-#    org.springframework.transaction: TRACE
     org.springframework.web.reactive.function.client: TRACE
-    org.springframework.r2dbc: TRACE
-    org.springframework.mongodb: TRACE
-    com.mongodb: TRACE
-    org.mongodb: TRACE
+    org.springframework.r2dbc.core: DEBUG
+    org.springframework.r2dbc.connection: DEBUG
+
+    org.mongodb.driver.protocol.command: DEBUG
+    org.mongodb: OFF
+
+    io.lettuce.core.protocol.CommandHandler: DEBUG
+
+    com.nhn.webflux2021: DEBUG
+
+    root: INFO
+#    io.netty: DEBUG
+#    reactor.netty: DEBUG
 #    org.springframework.web: TRACE
+#    org.springframework.mongodb: TRACE
+#    org.springframework: DEBUG
+#    io.lettuce: DEBUG
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    show-sql: true

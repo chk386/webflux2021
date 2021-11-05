@@ -27,14 +27,21 @@ services:
     hostname: mongo
     image: mongo
     ports:
-      - 3307:27017
+      - "3307:27017"
     volumes:
       - ./mongodb:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=nhn
       - MONGO_INITDB_ROOT_PASSWORD=nhn
       - MONGO_INITDB_DATABASE=webflux
-
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    restart: always
+    #    command: redis-server --requirepass webflux
+    ports:
+      - "3308:6379"
 networks:
   default:
     name: reactive
@@ -46,14 +53,6 @@ networks:
 #      - 8081:8080
 #    environment:
 #      - ADMINER_DESIGN=mvt
-#  redis:
-#    container_name: redis
-#    hostname: redis
-#    image: redis:5.0-alpine
-#    restart: always
-#    #    command: redis-server --requirepass webflux
-#    ports:
-#      - 6379:6379
 
 #  redis-commander:
 #    container_name: redis-commander # redis web client
