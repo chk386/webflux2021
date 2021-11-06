@@ -102,7 +102,7 @@ public class MonoTest {
                         long time = System.currentTimeMillis() - start;
                         MatcherAssert.assertThat("3개의 mono.zip의 실행시간 약 3000ms이다.",
                                                  time,
-                                                 greaterThan(3000L));
+                                                 lessThan(4000L));
                     })
                     .verifyComplete();
 

@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 
 @Configuration
 @EnableReactiveMongoRepositories("com.nhn.webflux2021.reactive.mongo")
-public class MongoConfig {}
+public class MongoConfig {
+}

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -14,10 +15,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Component
 public class MemberHandler {
@@ -54,7 +59,7 @@ public class MemberHandler {
         return body.flatMap(parts -> {
             Part file = parts.getFirst("upload.log");
 
-            log.info("파일명 : {}", file.name());
+            log.info("파일명 : {}", Objects.requireNonNull(file).name());
 
             var flux = file.content()
                            .flatMap(buf -> {
@@ -101,6 +106,23 @@ public class MemberHandler {
                         .flatMap(body -> ServerResponse.ok()
                                                        .contentType(MediaType.APPLICATION_JSON)
                                                        .bodyValue(body));
+    }
+
+    /**
+     * @see <a href="https://projectreactor.io/docs/core/release/reference/#faq.wrap-blocking">wrap-blocking</a>
+     */
+    public Mono<ServerResponse> blocking(ServerRequest request) {
+        return Mono.fromCallable(this::findOne)
+                   .subscribeOn(Schedulers.boundedElastic())
+                   .as(body -> ServerResponse.ok()
+                                             .body(body, String.class));
+    }
+
+    String findOne() throws Exception {
+        FileReader fileReader = new FileReader(ResourceUtils.getFile("classpath:blocking.log"));
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        return bufferedReader.readLine();
     }
 
     public static class Member {

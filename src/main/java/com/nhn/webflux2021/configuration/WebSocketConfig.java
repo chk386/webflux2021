@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
 import java.time.Duration;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Configuration
@@ -21,25 +21,23 @@ public class WebSocketConfig {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     final ReactiveMongoTemplate reactiveMongoTemplate;
+    final Sinks.Many<String> multicast;
 
-    public WebSocketConfig(ReactiveMongoTemplate reactiveMongoTemplate) {
+    public WebSocketConfig(ReactiveMongoTemplate reactiveMongoTemplate, Sinks.Many<String> multicast) {
         this.reactiveMongoTemplate = reactiveMongoTemplate;
+        this.multicast = multicast;
     }
 
     @Bean
     public HandlerMapping handlerMapping() {
-        var map = new HashMap<String, WebSocketHandler>();
-        map.put("/chat", chatHandler());
+        var urlMap = Map.of("/chat", chatHandler()
+                , "/other", chatHandler());
         var order = -1; // before annotated controllers
 
-        return new SimpleUrlHandlerMapping(map, order);
+        return new SimpleUrlHandlerMapping(urlMap, order);
     }
 
     WebSocketHandler chatHandler() {
-        final var multicast = Sinks.many()
-                                   .multicast()
-                                   .<String>directBestEffort();
-
         return session -> {
             final var ip = Objects.requireNonNull(session.getHandshakeInfo()
                                                          .getRemoteAddress())

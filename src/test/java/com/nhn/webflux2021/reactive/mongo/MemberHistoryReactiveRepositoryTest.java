@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
@@ -25,9 +24,10 @@ class MemberHistoryReactiveRepositoryTest {
 
     @Test
     void createHistoryTest() {
+
         Flux.range(1, 1000)
             .map(MemberHistoryReactiveRepositoryTest::of)
-            .doOnNext(memberHistory -> System.out.println(memberHistory.toString()))
+            .doOnNext(memberHistory -> log.debug(memberHistory.toString()))
             .as(memberRepository::saveAll)
             .doOnNext(memberHistory -> log.debug("result : {}", memberHistory.toString()))
             .as(StepVerifier::create)
@@ -36,10 +36,6 @@ class MemberHistoryReactiveRepositoryTest {
     }
 
     private static MemberHistory of(Integer id) {
-        MemberHistory memberHistory = new MemberHistory();
-        memberHistory.setMemberId(id);
-        memberHistory.setCreatedAt(LocalDateTime.now());
-
-        return memberHistory;
+        return new MemberHistory(id, LocalDateTime.now());
     }
 }

@@ -12,14 +12,18 @@
 
 <script type="text/javascript">
   (() => {
-    let ws = new WebSocket(`ws://localhost:8080/chat`);
+    const url = 'ws://localhost:8080/chat';
+    let ws = new WebSocket(url);
+
     ws.onopen = (e) => {
       console.log(e);
     };
+
     ws.onmessage = (message) => {
       let window = document.getElementById('window');
       window.textContent = window.textContent + `\n${message.data}`;
     };
+
     let btn = document.getElementById('send');
     btn.addEventListener('click', () => ws.send(document.getElementById('input').value));
   })();

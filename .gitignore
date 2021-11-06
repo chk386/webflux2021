@@ -39,8 +39,5 @@ bin/
 gradlew
 gradlew.bat
 
-### Other ###
-/http/
-
 ### JOOQ ###
 */src/generated/jooq

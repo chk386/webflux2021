@@ -1,15 +1,4 @@
 spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/reactive
-#    username: reactive
-#    password: reactive
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    hikari:
-#      maximum-pool-size: 2
-#      pool-name: reactive
-#  sql:
-#    init:
-#      schema-locations: classpath*:aa.sql
   r2dbc:
     url: r2dbc:mysql://localhost:3306/reactive
     username: reactive
@@ -29,26 +18,33 @@ spring:
       port: 3307
   redis:
     url: redis://localhost:3308
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      client-id: nhn
+      group-id: NHN-GROUP
 logging:
   level:
     org.springframework.web.reactive.function.client: TRACE
     org.springframework.r2dbc.core: DEBUG
     org.springframework.r2dbc.connection: DEBUG
-
+    org.springframework.data.mongodb.core: WARN
     org.mongodb.driver.protocol.command: DEBUG
+    org.springframework.kafka: DEBUG
+    reactor.kafka: DEBUG
+#    org.apache.kafka.clients: DEBUG
     org.mongodb: OFF
 
     io.lettuce.core.protocol.CommandHandler: DEBUG
 
     com.nhn.webflux2021: DEBUG
 
-    root: INFO
+    root: WARN
 #    io.netty: DEBUG
 #    reactor.netty: DEBUG
 #    org.springframework.web: TRACE
 #    org.springframework.mongodb: TRACE
-#    org.springframework: DEBUG
+    org.springframework: OFF
 #    io.lettuce: DEBUG
 #  jpa:
 #    database-platform: org.hibernate.dialect.MySQL8Dialect

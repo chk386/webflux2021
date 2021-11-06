@@ -34,24 +34,20 @@ public class MemberCacheTest {
 
     @Test
     void cacheTest() {
-        Member member = new Member();
-        member.setName("Charles");
-        member.setPhone("999-999-999");
+        Member member = new Member(null, "Charles", "999-999-999");
 
         log.debug("쓰레드 살펴보기");
 
         transaction.execute(callback -> memberRepository.save(member)
-                                                        .doOnNext(m -> log.debug("DB저장 후 id 채번 : {}", m.getId()))
+                                                        .doOnNext(m -> log.debug("DB저장 후 id 채번 : {}", m.id()))
                                                         .doOnError(throwable -> callback.setRollbackOnly())
                                                         .as(transaction::transactional))
                    .flatMap(m -> {
-                       MemberHistory memberHistory = new MemberHistory();
-                       memberHistory.setMemberId(m.getId());
-                       memberHistory.setCreatedAt(LocalDateTime.now());
+                       MemberHistory memberHistory = new MemberHistory(m.id(), LocalDateTime.now());
 
                        Mono<MemberHistory> save = memberHistoryReactiveRepository.save(memberHistory);
                        Mono<Long> add = reactiveRedisTemplate.opsForSet()
-                                                             .add(m.getId()
+                                                             .add(m.id()
                                                                    .toString(), member);
 
                        return Mono.zip(save, add);

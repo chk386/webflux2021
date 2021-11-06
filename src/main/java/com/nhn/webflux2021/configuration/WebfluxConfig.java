@@ -12,7 +12,7 @@ import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebFlux
-public class WebConfig implements WebFluxConfigurer {
+public class WebfluxConfig implements WebFluxConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

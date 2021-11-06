@@ -21,7 +21,7 @@ class MemberReactiveRepositoryTest {
     @Test
     void memberRepositoryTest() {
         StepVerifier.create(memberRepository.findById(1)
-                                            .map(Member::getId))
+                                            .map(Member::id))
                     .expectNext(1)
                     .verifyComplete();
     }
@@ -31,11 +31,10 @@ class MemberReactiveRepositoryTest {
 
     @Test
     void addMemberTest() {
-        Member member = new Member();
-        member.setName("nhn-commerce");
+        Member member = new Member(null, "nhn-commerce", "");
 
         StepVerifier.create(memberRepository.save(member)
-                                            .map(Member::getId)
+                                            .map(Member::id)
                                             .as(transaction::transactional))
                     .expectNextCount(1)
                     .verifyComplete();
@@ -56,17 +55,14 @@ class MemberReactiveRepositoryTest {
 
     @Test
     void transactionTest() {
-        final Member member = new Member();
-        member.setName("nhn-transaction");
+        final Member member = new Member(null, "nhn-commerce", "");
 
         transaction.transactional(memberRepository.save(member))
                    .as(StepVerifier::create)
                    .expectNextCount(1)
                    .verifyComplete();
 
-
-        final Member member2 = new Member();
-        member2.setName("nhn-programmaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaa");
+        final Member member2 = new Member(null, "nhn-programmaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaapprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaaprogrammaticaaaaaaaaa", "");
 
         transaction.execute(callback -> memberRepository.save(member2)
                                                         .doOnError(throwable -> callback.setRollbackOnly()))

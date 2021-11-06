@@ -1,0 +1,29 @@
+GET localhost:8080/members/nhn?reactive=webflux
+
+###
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "id": "nhn",
+  "name": "dev"
+}
+
+###
+# curl -X POST --location "http://localhost:8080/upload" \
+#    -H "Content-Type: multipart/form-data; boundary=WebAppBoundary" \
+#    -F "file=@/Users/chk386/IdeaProjects/webflux2021/http/upload.log;filename=upload.log;type=*/*"
+POST http://localhost:8080/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="upload.log"; filename="*"
+
+< upload.log
+--WebAppBoundary--
+
+###
+GET http://localhost:8080/addresses?pageNumber=1&pageSize=100&keyword=삼평동
+Accept: application/json
+clientId: f7IuuZPHwmc7hGfGmbhHog==
+platform: PC

@@ -28,15 +28,19 @@ public class MemberRouter {
                       )
                       .POST("/upload", memberHandler::upload)
                       .GET("/addresses", memberHandler::getAddresses)
+                      .GET("/blocking", memberHandler::blocking)
                       .after(this::after)
                       .build();
     }
 
     private ServerRequest before(ServerRequest req) {
-//        log.info("Before >>>> 접속 IP : {}", req.localAddress()
-//                                              .orElseThrow()
-//                                              .getAddress()
-//                                              .getHostAddress());
+        try {
+            log.info("Before >>>> 접속 IP : {}", req.localAddress()
+                                                  .orElseThrow()
+                                                  .getAddress()
+                                                  .getHostAddress());
+        } catch (Exception ignored) {
+        }
 
         return req;
     }
