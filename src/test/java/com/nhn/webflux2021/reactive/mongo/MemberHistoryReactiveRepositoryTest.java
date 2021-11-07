@@ -1,6 +1,7 @@
 package com.nhn.webflux2021.reactive.mongo;
 
 import com.nhn.webflux2021.configuration.MongoConfig;
+import com.nhn.webflux2021.reactive.ReactiveBaseTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
 @ContextConfiguration(classes = MongoConfig.class)
-class MemberHistoryReactiveRepositoryTest {
+class MemberHistoryReactiveRepositoryTest extends ReactiveBaseTest {
 
     Logger log = LoggerFactory.getLogger(this.getClass());
 

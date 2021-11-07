@@ -1,11 +1,18 @@
 ## 사전준비
-- JDK 17
-- GRADLE 7.2+
-- IDEA
-- [docker](https://docs.docker.com/desktop/mac/install/)
-- docker-compose 설치 확인
+- 필수 : JDK 17
+- 필수 : GRADLE 7.2+
+- 필수 : IDEA
+- 선택 : [docker](https://docs.docker.com/desktop/mac/install/)
+- 선택 : docker-compose 설치 확인
 
-## local에서 실행
+## 실행
+```bash
+git clone https://github.com/chk386/webflux2021
+cd webflux2021
+gradle clean assemble
+gradle bootRun -Dspring.profiles.active=cloud
+```
+## 로컬에서 kafka, mysql, mongodb, redis 띄우고 실행하는 법
 1. /docker/docker-compose up
 2. 몽고 - db, 계정 생성
     ```bash
@@ -17,18 +24,14 @@
 3. mysql 스키마 생성
    1. r2dbc:mysql://localhost:3306/webflux (webflux/webflux) 접속
    2. [schema-mysql.sql](/src/main/resources/schema-mysql.sql) 실행
-```bash
-docker exec -it mysql /bin/sh
-
-```
 4. gradle clean build
+5. gradle bootRun
 
-## image에서 실행 (local 설정 싫으신분)
+## image에서 실행 (설정하기 싫다면..)
 ```bash
-docker run -e spring.profiles.active=cloud -p 8080:8080 -m=1G nhn/webflux
+docker run -e spring.profiles.active=cloud -p 8080:8080 -m=1G chk386/webflux
 ```
-
-## dockerizing
+## dockerizing 참고
 ```bash
 gradle bootBuildImage --imageName=chk386/webflux:latest # container 만들기
 

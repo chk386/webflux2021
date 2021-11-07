@@ -71,7 +71,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://${KAFKA_PLAIN_TEXT}:9092
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -81,7 +81,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
-#      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8085
       CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka:29092
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'true'
@@ -90,90 +89,3 @@ services:
 networks:
   default:
     name: webflux
-#  adminer:
-#    container_name: adminer # mysql web client
-#    image: adminer
-#    restart: always
-#    ports:
-#      - 8081:8080
-#    environment:
-#      - ADMINER_DESIGN=mvt
-
-#  redis-commander:
-#    container_name: redis-commander # redis web client
-#    hostname: redis-commander
-#    image: rediscommander/redis-commander:latest
-#    restart: always
-#    environment:
-#      - REDIS_HOSTS=local:redis:6379
-#    #      - REDIS_PASSWORD=webflux
-#    ports:
-#      - 8082:8081
-
-
-#  mongo-express:
-#    depends_on:
-#      - mongo
-#    container_name: mongo-express
-#    hostname: mongo-express
-#    image: mongo-express
-#    environment:
-#      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
-#      - ME_CONFIG_MONGODB_ADMINUSERNAME=webflux
-#      - ME_CONFIG_MONGODB_ADMINPASSWORD=webflux
-#      - ME_CONFIG_MONGODB_PORT=27017
-#      - ME_CONFIG_MONGODB_SERVER=mongo
-#      - ME_CONFIG_MONGODB_AUTH_DATABASE=webflux
-#    ports:
-#      - 8083:8081
-#  zookeeper:
-#    container_name: zookeeper
-#    hostname: zookeeper
-#    image: wurstmeister/zookeeper
-#    ports:
-#      - "2181:2181"
-
-  # -----------------------------------------------------------------------------
-  # For connections _internal_ to the docker network, such as from other services
-  # and components, use kafka:29092.
-  #
-  # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
-  # -----------------------------------------------------------------------------
-
-  # create topic
-  # docker run --net=host --rm confluentinc/cp-kafka:5.0.1 kafka-topics --create --topic webflux --partitions 1 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
-
-  # producer
-  # docker exec -it kafka /bin/sh
-  # kafka-console-producer --broker-list localhost:9092 --topic webflux --property parse.key=true --property key.seperator=,
-
-  # consumer
-  # kafka-console-consumer --bootstrap-server localhost:9092 --topic webflux
-#  kafka:
-#    container_name: kafka
-#    hostname: kafka
-#    ports:
-#      - 9092:9092
-#    image: wurstmeister/kafka
-#    environment:
-#      KAFKA_ADVERTISED_HOST_NAME: localhost
-#      KAFKA_CREATE_TOPICS: "webflux:1:1"
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#  zoonavigator:
-#    container_name: zoonavigator
-#    hostname: zoonavigator
-#    image: elkozmon/zoonavigator:latest
-#    depends_on:
-#      - zookeeper
-#    ports:
-#      - 8084:9000
-#  kafka-manager:
-#    container_name: kafka-manager
-#    hostname: kafka-manager
-#    image: kafkamanager/kafka-manager:latest
-#    depends_on:
-#      - kafka
-#    environment:
-#      - ZK_HOSTS=zookeeper:2181
-#    ports:
-#      - 8085:9000

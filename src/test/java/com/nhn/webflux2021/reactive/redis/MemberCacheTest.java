@@ -1,5 +1,6 @@
 package com.nhn.webflux2021.reactive.redis;
 
+import com.nhn.webflux2021.reactive.ReactiveBaseTest;
 import com.nhn.webflux2021.reactive.mongo.MemberHistory;
 import com.nhn.webflux2021.reactive.mongo.MemberHistoryReactiveRepository;
 import com.nhn.webflux2021.reactive.r2dbc.Member;
@@ -17,7 +18,7 @@ import reactor.test.StepVerifier;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public class MemberCacheTest {
+public class MemberCacheTest extends ReactiveBaseTest {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

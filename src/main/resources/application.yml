@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   r2dbc:
     url: r2dbc:mysql://localhost:3306/webflux
@@ -20,9 +23,7 @@ spring:
     url: redis://localhost:3308
   kafka:
     bootstrap-servers: localhost:9092
-    consumer:
-      client-id: nhn
-      group-id: NHN-GROUP
+
 logging:
   level:
     org.springframework.web.reactive.function.client: TRACE
@@ -46,6 +47,3 @@ logging:
 #    org.springframework.mongodb: TRACE
     org.springframework: OFF
 #    io.lettuce: DEBUG
-#  jpa:
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
-#    show-sql: true

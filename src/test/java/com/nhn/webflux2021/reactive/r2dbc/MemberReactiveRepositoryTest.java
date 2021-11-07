@@ -1,5 +1,6 @@
 package com.nhn.webflux2021.reactive.r2dbc;
 
+import com.nhn.webflux2021.reactive.ReactiveBaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
@@ -10,7 +11,7 @@ import reactor.test.StepVerifier;
 import java.math.BigInteger;
 
 @DataR2dbcTest
-class MemberReactiveRepositoryTest {
+class MemberReactiveRepositoryTest extends ReactiveBaseTest {
 
     @Autowired
     MemberReactiveRepository memberRepository;
