@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
   (() => {
-    const url = 'ws://localhost:8080/chat';
+    const url = `ws://${window.location.host}/chat`;
     let ws = new WebSocket(url);
 
     ws.onopen = (e) => {

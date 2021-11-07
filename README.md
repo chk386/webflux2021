@@ -17,10 +17,26 @@
 3. mysql 스키마 생성
    1. r2dbc:mysql://localhost:3306/webflux (webflux/webflux) 접속
    2. [schema-mysql.sql](/src/main/resources/schema-mysql.sql) 실행
+```bash
+docker exec -it mysql /bin/sh
+
+```
 4. gradle clean build
 
-## docker없이 실행(cloud)
+## image에서 실행 (local 설정 싫으신분)
+```bash
+docker run -e spring.profiles.active=cloud -p 8080:8080 -m=1G nhn/webflux
+```
 
+## dockerizing
+```bash
+gradle bootBuildImage --imageName=chk386/webflux:latest # container 만들기
 
+# image upload to docker hub
+docker login # docker hub 계정 필요
+docker tag chk386/webflux:latest chk386/webflux:latest # docker hub repository로 변경필요
+docker push chk386/webflux:latest
 
+docker run -e spring.profiles.active=local -p 8080:8080 -m=2G chk386/webflux # 실행
+```
 
