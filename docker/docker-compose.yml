@@ -10,10 +10,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=reactive
-      - MYSQL_USER=reactive
-      - MYSQL_PASSWORD=reactive
-      - MYSQL_DATABASE=reactive
+      - MYSQL_ROOT_PASSWORD=webflux
+      - MYSQL_USER=webflux
+      - MYSQL_PASSWORD=webflux
+      - MYSQL_DATABASE=webflux
     volumes:
       - ./mysql:/var/lib/mysql
 
@@ -39,7 +39,6 @@ services:
     hostname: redis
     image: redis
     restart: always
-    #    command: redis-server --requirepass webflux
     ports:
       - "3308:6379"
 
@@ -90,7 +89,7 @@ services:
 
 networks:
   default:
-    name: reactive
+    name: webflux
 #  adminer:
 #    container_name: adminer # mysql web client
 #    image: adminer
