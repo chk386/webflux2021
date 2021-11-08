@@ -27,7 +27,7 @@ gradle bootRun -Dspring.profiles.active=cloud
 4. gradle clean build
 5. gradle bootRun
 
-## image에서 실행 (설정하기 싫다면..)
+## image로 실행 (설정하기 싫다면..)
 ```bash
 docker run -e spring.profiles.active=cloud -p 8080:8080 -m=1G chk386/webflux
 ```
