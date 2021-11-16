@@ -33,8 +33,6 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
-gradlew
-gradlew.bat
 
 ### JOOQ ###
 */src/generated/jooq
