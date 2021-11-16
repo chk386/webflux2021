@@ -1,8 +1,6 @@
 package com.nhn.webflux2021;
 
-import com.sun.management.OperatingSystemMXBean;
 import org.junit.jupiter.api.Test;
-import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.BaseSubscriber;
@@ -24,7 +22,7 @@ public class BackPressureTest {
 
         boards.publishOn(Schedulers.newSingle("SUBSCRIBER"))
               .log()
-              .subscribe(new BaseSubscriber<Long>() {
+              .subscribe(new BaseSubscriber<>() {
                   @Override
                   protected void hookOnNext(Long value) {
                       freeMemory.countDown();

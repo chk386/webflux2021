@@ -1,7 +1,5 @@
 package com.nhn.webflux2021;
 
-import org.assertj.core.api.Assert;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,25 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-import java.util.stream.IntStream;
-
-import reactor.core.publisher.ConnectableFlux;
-import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
-import reactor.core.scheduler.Schedulers;
-import reactor.test.StepVerifier;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -57,7 +41,7 @@ public class HotPublisherTest {
     void hotTest(CapturedOutput output) {
         Sinks.Many<Object> hot = Sinks.many()
                                       .multicast()
-                                      .directBestEffort();
+                                      .onBackpressureBuffer();
         var hotFlux = hot.asFlux();
 
         hot.tryEmitNext("BLACK");
@@ -74,7 +58,7 @@ public class HotPublisherTest {
         hot.tryEmitComplete();
 
 
-        assertThat("구독을 하게 되면 실행된다.",
+        assertThat("hot publisher 테스트",
                    extractColorsFromConsole(output),
                    contains("BLUE", "GREEN", "ORANGE", "ORANGE", "PURPLE", "PURPLE"));
     }

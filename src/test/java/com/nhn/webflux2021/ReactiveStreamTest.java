@@ -11,8 +11,6 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import reactor.core.publisher.Flux;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -72,10 +70,10 @@ class ReactiveStreamTest {
     @SuppressWarnings("all")
     void reactiveStreamsTest(CapturedOutput output) {
         Publisher<Integer> publisher = s -> integers.forEach(s::onNext);
+
         publisher.subscribe(new Subscriber<>() {
             private final Logger logger = LoggerFactory.getLogger(this.getClass());
             Subscription subscription;
-
 
             @Override
             public void onSubscribe(Subscription s) {
