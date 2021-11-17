@@ -41,7 +41,7 @@ public class HotPublisherTest {
     void hotTest(CapturedOutput output) {
         Sinks.Many<Object> hot = Sinks.many()
                                       .multicast()
-                                      .onBackpressureBuffer();
+                                      .directBestEffort();
         var hotFlux = hot.asFlux();
 
         hot.tryEmitNext("BLACK");

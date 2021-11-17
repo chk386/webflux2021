@@ -40,7 +40,7 @@ logging:
 
     com.nhn.webflux2021: DEBUG
 
-    root: WARN
+    root: INFO
 #    io.netty: DEBUG
 #    reactor.netty: DEBUG
 #    org.springframework.web: TRACE
