@@ -1,6 +1,6 @@
 spring:
   r2dbc:
-    url: r2dbc:mysql://133.186.229.130:3306/webflux
+    url: r2dbc:mysql://133.186.208.152:3306/webflux
     username: webflux
     password: webflux
     name: webflux
@@ -14,9 +14,9 @@ spring:
       database: webflux
       username: webflux
       password: webflux
-      host: 133.186.229.130
+      host: 133.186.208.152
       port: 3307
   redis:
-    url: redis://133.186.229.130:3308
+    url: redis://133.186.208.152:3308
   kafka:
-    bootstrap-servers: 133.186.229.130:9092
+    bootstrap-servers: 133.186.208.152:9092
