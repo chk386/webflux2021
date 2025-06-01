@@ -1,4 +1,3 @@
-![webonreactrive](https://github.com/user-attachments/assets/5d5f429e-2841-43f9-8acc-6ba45ce73a78)
 
 # 211117 Spring5 Reactive Webflux
 ## 사전준비
